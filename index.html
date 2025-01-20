@@ -15,7 +15,7 @@
         }
 
         header {
-            background-color: #bd4343;
+            background-color: #808080;
             color: white;
             text-align: center;
             padding: 20px 0;
@@ -56,6 +56,212 @@
         a:focus, a:active, img:focus, img:active {
             outline: none;
             -webkit-tap-highlight-color: transparent; /* Remove a cor de destaque do toque */
+        }
+
+        .video-thumbnail {
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+            transition: opacity 0.5s ease;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000; /* Mantido para estar abaixo do pop-up */
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: transparent;
+            padding: 10px;
+            z-index: 1001;
+            text-align: center;
+            width: 70%;
+        }
+
+        #popup img, video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 4px;
+        }
+
+        #popup .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1002;
+        }
+
+        .drag-message {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            z-index: 1000000;
+            border-radius: 10px;
+        }
+
+        .drag-message.show {
+            opacity: 1;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            position: absolute; /* Fixa a posição embaixo da miniatura */
+        
+            left: 50%; /* Centraliza horizontalmente */
+            transform: translateX(-50%); /* Ajusta para garantir que esteja 100% centralizada */
+            /* Distância de 10px abaixo da miniatura */
+            display: none; /* Inicialmente escondida */
+            z-index: 10; /* Coloca a palavra "Carregando..." acima da miniatura */
+            transition: opacity 0.5s ease; /* Transição suave */
+        }
+
+        .taxa-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none; /* Esconde inicialmente */
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .taxa-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 20px; /* Afastamento lateral do container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin: 0 20px; /* Margem para o espaçamento lateral */
+        }
+        .taxa-header {
+            width: 100%;
+            background-color: #E74C3C;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .taxa-header span {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .taxa-header .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fffb00;
+        }
+        .taxa-content {
+            background-color: white;
+            padding: 10px 20px; /* Diminuiu o padding para reduzir a altura */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+        }
+        .taxa-content h2 {
+            margin: 30px 0 20px; /* Diminuiu o espaçamento para reduzir a altura */
+            font-size: 20px;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+        .taxa-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .taxa-content button {
+            padding: 12px 20px;
+            background-color: #1d7530;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .taxa-content .emoji {
+            font-size: 40px;
+            margin-bottom: -20px;
+        }
+        /* Afastamento entre as taxas */
+        .taxa-container + .taxa-container {
+            margin-top: 20px; /* Adiciona afastamento entre o cronômetro e a taxa de pagamento */
+        }
+
+
+        .thumbnail-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .play-circle, .play-circle2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-circle {
+            opacity: 0; /* Esconde o botão de play inicialmente */
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .play-circle i, .play-circle2 i {
+            color: white;
+            font-size: 30px;
+            margin-left: -5px;
+        }
+
+        .play-circle2 i {
+            pointer-events: none;
         }
         
     </style>
@@ -104,8 +310,289 @@
                         data-src="https://www.dropbox.com/scl/fi/zl55om2azq0m4x74fkq77/2.webm?rlkey=sctqkg6np8x391dm0ir01mvh8&st=rgyrx5zo&raw=1">
                 </video>
             </div>
+    
+            <img 
+            class="media-thumbnail" 
+            src="https://www.dropbox.com/scl/fi/ms5rxfhqvfhzxo7yxma8s/10.webp?rlkey=gl19gvoxpaen7sis29ob3l5jw&st=t2r5mtfl&raw=1" 
+            alt="Imagem Aleatória 1"
+            data-media-url="https://www.dropbox.com/scl/fi/ms5rxfhqvfhzxo7yxma8s/10.webp?rlkey=gl19gvoxpaen7sis29ob3l5jw&st=t2r5mtfl&raw=1">
         
     </section>
+
+    <div id="drag-message" class="drag-message">
+        Arraste para o lado
+    </div>
+    <div class="overlay"></div>
+    <div id="popup">
+        <button class="close">Fechar</button>
+        <div id="popup-content" style="display: none;"></div>
+    </div>
+
+    <div class="taxa-overlay" id="taxa-initial">
+        <div class="taxa-container">
+            <div class="taxa-header">
+                <span>O preço vai aumentar em:</span>
+                <span class="timer" id="countdown-timer">17:00</span>
+            </div>
+            <div class="taxa-content">
+                <h2>Acesso Premium Por <span style="color: #1d7530;">R$9,90</span></h2>
+                <p>Para acessar o conteúdo exclusivo, é necessário pagar a taxa de R$9,90 via PIX.</p>
+                <button id="pay-pix-button">Pagar Taxa</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="taxa-overlay" id="taxa-pix-copied" style="display: none;">
+        <div class="taxa-container">
+            <div class="taxa-header">
+                <span>O preço vai aumentar em:</span>
+                <span class="timer" id="countdown-timer-copy">17:00</span>
+            </div>
+            <div class="taxa-content">
+                <div class="emoji">😊</div>
+                <h2>PIX Copiado!</h2>
+                <p>Abra o aplicativo do seu banco e faça o pagamento. O acesso será liberado imediatamente.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Seleciona os elementos do pop-up de conteúdo de mídia
+        const popup = document.getElementById('popup');
+        const overlay = document.querySelector('.overlay');
+        const closeBtn = popup.querySelector('.close');
+        const popupContent = document.getElementById('popup-content');
+        const dragMessage = document.getElementById('drag-message');
+        
+        // Seleciona todos os thumbnails de vídeo e imagem
+        const mediaThumbnails = document.querySelectorAll('.media-thumbnail, .video-thumbnail');
+        const videosOnPage = document.querySelectorAll('video');
+        
+        // Flag para garantir que a mensagem "Arraste para o lado" apareça apenas na primeira vez
+        let isFirstTimePopupOpened = true;
+        
+        // Índice atual do item mostrado no pop-up
+        let currentIndex = -1;
+        
+        // Função para exibir a mensagem "Arraste para o lado"
+        const showDragMessage = () => {
+            dragMessage.classList.add('show');
+            setTimeout(() => {
+                dragMessage.classList.remove('show');
+            }, 3000); // Remove a mensagem após 3 segundos
+        };
+        
+        // Função para abrir o pop-up com conteúdo dinâmico (imagem ou vídeo)
+        const openPopup = (type, url, thumbnailSrc, index) => {
+            // Limpa o conteúdo anterior
+            popupContent.innerHTML = '';
+
+            if (type === 'image') {
+                // Cria e insere o elemento de imagem
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Imagem do Popup';
+                popupContent.appendChild(img);
+            } else if (type === 'video') {
+                // Cria e insere o elemento de thumbnail (primeiro)
+                const videoThumbnail = document.createElement('img');
+                videoThumbnail.src = thumbnailSrc; // Agora usamos o src da miniatura
+                videoThumbnail.alt = 'Miniatura do Vídeo';
+                videoThumbnail.classList.add('video-thumbnail-popup');
+                popupContent.appendChild(videoThumbnail);
+
+                // Cria e insere o botão de play com o novo estilo
+                const playButton = document.createElement('div');
+                playButton.classList.add('play-circle2');
+                playButton.innerHTML = '<i class="fas fa-play"></i>'; // Ícone de play
+                popupContent.appendChild(playButton);
+
+                // Centraliza o botão de play sobre a miniatura
+                playButton.style.position = 'absolute';
+                playButton.style.top = '50%';
+                playButton.style.left = '50%';
+                playButton.style.transform = 'translate(-50%, -50%)';
+
+                // Evento ao clicar na miniatura para carregar o vídeo
+                videoThumbnail.addEventListener('click', () => {
+                    // Exibe a palavra "Carregando..."
+                    const loadingText = document.createElement('div');
+                    loadingText.classList.add('loading-text');
+                    loadingText.textContent = 'Carregando...';
+                    popupContent.appendChild(loadingText);
+                    loadingText.style.display = 'block';
+
+                    // Esconde o botão de play e a miniatura e carrega o vídeo
+                    playButton.style.display = 'none';
+                    loadVideo(url, videoThumbnail, loadingText);
+                });
+
+                // Também podemos permitir que o botão de play tenha a mesma função
+                playButton.addEventListener('click', () => {
+                    const loadingText = document.createElement('div');
+                    loadingText.classList.add('loading-text');
+                    loadingText.textContent = 'Carregando...';
+                    popupContent.appendChild(loadingText);
+                    loadingText.style.display = 'block';
+
+                    playButton.style.display = 'none';
+                    loadVideo(url, videoThumbnail, loadingText);
+                });
+            }
+
+            popupContent.style.display = 'block';
+            popup.style.display = 'flex';
+            overlay.style.display = 'block';
+
+            currentIndex = index; // Atualiza o índice atual
+
+            // Exibe a mensagem "Arraste para o lado" na primeira vez
+            if (isFirstTimePopupOpened) {
+                showDragMessage();
+                isFirstTimePopupOpened = false;
+            }
+        };
+
+        // Função para carregar o vídeo após clicar na miniatura ou botão de play
+        const loadVideo = (url, thumbnail, loadingText) => {
+            // Cria o elemento de vídeo
+            const video = document.createElement('video');
+            video.controls = true;
+            video.autoplay = true;
+            video.loop = true;
+            const source = document.createElement('source');
+            source.src = url;
+            source.type = 'video/webm';
+            video.appendChild(source);
+
+            // Ao carregar o vídeo, esconde a miniatura e exibe o vídeo
+            video.addEventListener('canplaythrough', () => {
+                thumbnail.style.display = 'none'; // Esconde a miniatura
+                video.style.display = 'block'; // Exibe o vídeo
+                loadingText.style.display = 'none'; // Esconde a palavra "Carregando..."
+            });
+
+            popupContent.appendChild(video);
+            video.style.display = 'none'; // Inicialmente escondido, até ser carregado
+        };
+      
+        // Clique nos thumbnails de imagem e vídeo
+        mediaThumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', () => {
+                const mediaType = thumbnail.classList.contains('video-thumbnail') ? 'video' : 'image';
+                const mediaUrl = thumbnail.getAttribute('data-media-url') || thumbnail.getAttribute('data-video');
+                const thumbnailSrc = thumbnail.src;
+                openPopup(mediaType, mediaUrl, thumbnailSrc, index);
+            });
+        });
+        
+        // Clique no vídeo já presente na página
+        videosOnPage.forEach(video => {
+            video.addEventListener('click', () => {
+                const videoUrl = video.querySelector('source').getAttribute('src');
+                const thumbnail = video.previousElementSibling;
+                openPopup('video', videoUrl, thumbnail.src);
+            });
+        });
+        
+        // Fechar o pop-up
+        closeBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            popupContent.innerHTML = ''; // Remove o conteúdo para evitar reprodução contínua
+        });
+        
+        // Função para navegar no pop-up
+        const navigatePopup = (direction) => {
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) newIndex = mediaThumbnails.length - 1;
+            if (newIndex >= mediaThumbnails.length) newIndex = 0;
+        
+            const newThumbnail = mediaThumbnails[newIndex];
+            const mediaType = newThumbnail.classList.contains('video-thumbnail') ? 'video' : 'image';
+            const mediaUrl = newThumbnail.getAttribute('data-media-url') || newThumbnail.getAttribute('data-video');
+            const thumbnailSrc = newThumbnail.src;
+        
+            openPopup(mediaType, mediaUrl, thumbnailSrc, newIndex);
+        };
+        
+        // Navegação por teclado
+        document.addEventListener('keydown', (event) => {
+            if (popup.style.display === 'flex') {
+                if (event.key === 'ArrowRight') navigatePopup(1);
+                if (event.key === 'ArrowLeft') navigatePopup(-1);
+            }
+        });
+        
+        // Navegação por deslize em dispositivos móveis (agora funciona em qualquer área)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].screenX;
+            const deltaX = touchEndX - touchStartX;
+        
+            if (deltaX > 50) navigatePopup(-1); // Deslize para a direita
+            if (deltaX < -50) navigatePopup(1); // Deslize para a esquerda
+        });
+        
+        // Adiciona o pop-up de taxa
+        const taxaOverlay = document.getElementById('taxa-initial');
+        const taxaPopup = document.querySelector('.taxa-overlay');
+        
+        // Função para abrir o pop-up de taxa após 30 segundos
+        setTimeout(() => {
+            // Fecha o pop-up de conteúdo de mídia, caso esteja aberto
+            if (popup.style.display === 'flex') {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+                popupContent.innerHTML = ''; // Remove o conteúdo
+            }
+        
+            // Abre o pop-up de taxa
+            taxaOverlay.style.display = 'flex';
+        
+            // Inicia o cronômetro
+            let timer = 17 * 60; // 17 minutos em segundos
+            const countdownTimer = document.getElementById('countdown-timer');
+            const countdownTimerCopy = document.getElementById('countdown-timer-copy');
+        
+            const updateTimer = () => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                countdownTimer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                countdownTimerCopy.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        
+                if (timer > 0) {
+                    timer--;
+                }
+            };
+        
+            setInterval(updateTimer, 1000);
+        }, 30000); // 30 segundos
+        
+        // Fechar o pop-up de taxa quando o botão for clicado
+        document.getElementById('pay-pix-button').addEventListener('click', () => {
+            // Fecha o pop-up de taxa
+            taxaOverlay.style.display = 'none';
+        
+            // Abre o pop-up "PIX Copiado"
+            document.getElementById('taxa-pix-copied').style.display = 'flex';
+        
+            // Copiar "oi" para a área de transferência
+            const textToCopy = 'oi';
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        });
+    </script>
     
 </body>
 </html>
