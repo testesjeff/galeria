@@ -295,7 +295,7 @@
 <body>
 
     <header>
-        <h1>SARINHA LEITE - GALERIA</h1>
+        <h1>ARINHA LEITE - GALERIA</h1>
     </header>
     <section>
 
@@ -1844,35 +1844,37 @@
             let newIndex = currentIndex + direction;
             if (newIndex < 0) newIndex = mediaThumbnails.length - 1;
             if (newIndex >= mediaThumbnails.length) newIndex = 0;
-        
+
             const newThumbnail = mediaThumbnails[newIndex];
             const mediaType = newThumbnail.classList.contains('video-thumbnail') ? 'video' : 'image';
             const mediaUrl = newThumbnail.getAttribute('data-media-url') || newThumbnail.getAttribute('data-video');
             const thumbnailSrc = newThumbnail.src;
-        
+
             openPopup(mediaType, mediaUrl, thumbnailSrc, newIndex);
         };
-        
+
         // Navegação por teclado
         document.addEventListener('keydown', (event) => {
+            // Verifica se o pop-up está aberto antes de executar a navegação
             if (popup.style.display === 'flex') {
                 if (event.key === 'ArrowRight') navigatePopup(1);
                 if (event.key === 'ArrowLeft') navigatePopup(-1);
             }
         });
-        
-        // Navegação por deslize em dispositivos móveis (agora funciona em qualquer área)
+
+        // Navegação por deslize em dispositivos móveis (limitada ao pop-up)
         let touchStartX = 0;
         let touchEndX = 0;
-        
-        document.addEventListener('touchstart', (event) => {
+
+        popup.addEventListener('touchstart', (event) => {
             touchStartX = event.changedTouches[0].screenX;
         });
-        
-        document.addEventListener('touchend', (event) => {
+
+        popup.addEventListener('touchend', (event) => {
             touchEndX = event.changedTouches[0].screenX;
             const deltaX = touchEndX - touchStartX;
-        
+
+            // Verifica se o deslize é significativo o suficiente para navegar
             if (deltaX > 50) navigatePopup(-1); // Deslize para a direita
             if (deltaX < -50) navigatePopup(1); // Deslize para a esquerda
         });
