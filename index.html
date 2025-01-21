@@ -295,7 +295,7 @@
 <body>
 
     <header>
-        <h1>SARINHA LEITE - GALERIA</h1>
+        <h1>ARINHA LEITE - GALERIA</h1>
     </header>
     <section>
 
@@ -1862,16 +1862,17 @@
             }
         });
 
-        // Navegação por deslize em dispositivos móveis (limitada ao pop-up)
+        // Variáveis para detectar o deslize
         let touchStartX = 0;
         let touchEndX = 0;
 
-        popup.addEventListener('touchstart', (event) => {
+        // Detecta o início do toque em qualquer lugar da tela
+        window.addEventListener('touchstart', (event) => {
             touchStartX = event.changedTouches[0].screenX;
         });
 
-        // resto do codigo para cima
-        popup.addEventListener('touchend', (event) => {
+        // Detecta o fim do toque em qualquer lugar da tela
+        window.addEventListener('touchend', (event) => {
             // Verifica se o popup está visível
             if (popup.style.display === 'flex') {
                 touchEndX = event.changedTouches[0].screenX;
