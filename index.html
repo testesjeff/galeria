@@ -1718,67 +1718,55 @@
                 dragMessage.classList.remove('show');
             }, 3000); // Remove a mensagem após 3 segundos
         };
-
-        // Função para abrir o popup
-        function openPopup() {
-            popup.style.display = 'flex';
-            overlay.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Bloqueia a rolagem da tela
-        }
-
-        // Função para fechar o popup
-        function closePopup() {
-            popup.style.display = 'none';
-            overlay.style.display = 'none';
-            document.body.style.overflow = ''; // Restaura a rolagem da tela
-        }
         
-        // Função para abrir o pop-up com conteúdo dinâmico (imagem ou vídeo)
-        const openPopup = (type, url, thumbnailSrc, index) => {
-            // Limpa o conteúdo anterior
-            popupContent.innerHTML = '';
+        // Função para bloquear a rolagem ao abrir o pop-up
+        const disableScroll = () => {
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = '15px'; // Evita o "jump" causado pela barra de rolagem
+        };
 
+        // Função para desbloquear a rolagem ao fechar o pop-up
+        const enableScroll = () => {
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        };
+
+        // Modifique o código de abrir e fechar pop-up
+        const openPopup = (type, url, thumbnailSrc, index) => {
+            popupContent.innerHTML = '';
             if (type === 'image') {
-                // Cria e insere o elemento de imagem
                 const img = document.createElement('img');
                 img.src = url;
                 img.alt = 'Imagem do Popup';
                 popupContent.appendChild(img);
             } else if (type === 'video') {
-                // Cria e insere o elemento de thumbnail (primeiro)
                 const videoThumbnail = document.createElement('img');
-                videoThumbnail.src = thumbnailSrc; // Agora usamos o src da miniatura
+                videoThumbnail.src = thumbnailSrc;
                 videoThumbnail.alt = 'Miniatura do Vídeo';
                 videoThumbnail.classList.add('video-thumbnail-popup');
                 popupContent.appendChild(videoThumbnail);
 
-                // Cria e insere o botão de play com o novo estilo
                 const playButton = document.createElement('div');
                 playButton.classList.add('play-circle2');
-                playButton.innerHTML = '<i class="fas fa-play"></i>'; // Ícone de play
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
                 popupContent.appendChild(playButton);
 
-                // Centraliza o botão de play sobre a miniatura
                 playButton.style.position = 'absolute';
                 playButton.style.top = '50%';
                 playButton.style.left = '50%';
                 playButton.style.transform = 'translate(-50%, -50%)';
 
-                // Evento ao clicar na miniatura para carregar o vídeo
                 videoThumbnail.addEventListener('click', () => {
-                    // Exibe a palavra "Carregando..."
                     const loadingText = document.createElement('div');
                     loadingText.classList.add('loading-text');
                     loadingText.textContent = 'Carregando...';
                     popupContent.appendChild(loadingText);
                     loadingText.style.display = 'block';
 
-                    // Esconde o botão de play e a miniatura e carrega o vídeo
                     playButton.style.display = 'none';
                     loadVideo(url, videoThumbnail, loadingText);
                 });
 
-                // Também podemos permitir que o botão de play tenha a mesma função
                 playButton.addEventListener('click', () => {
                     const loadingText = document.createElement('div');
                     loadingText.classList.add('loading-text');
@@ -1795,14 +1783,22 @@
             popup.style.display = 'flex';
             overlay.style.display = 'block';
 
-            currentIndex = index; // Atualiza o índice atual
+            currentIndex = index;
 
-            // Exibe a mensagem "Arraste para o lado" na primeira vez
             if (isFirstTimePopupOpened) {
                 showDragMessage();
                 isFirstTimePopupOpened = false;
             }
+
+            disableScroll(); // Bloqueia a rolagem
         };
+
+        closeBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            popupContent.innerHTML = '';
+            enableScroll(); // Desbloqueia a rolagem
+        });
 
         // Função para carregar o vídeo após clicar na miniatura ou botão de play
         const loadVideo = (url, thumbnail, loadingText) => {
