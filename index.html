@@ -295,7 +295,7 @@
 <body>
 
     <header>
-        <h1>ARINHA LEITE - GALERIA</h1>
+        <h1>SARINHA LEITE - GALERIA</h1>
     </header>
     <section>
 
@@ -1870,15 +1870,20 @@
             touchStartX = event.changedTouches[0].screenX;
         });
 
+        // resto do codigo para cima
         popup.addEventListener('touchend', (event) => {
-            touchEndX = event.changedTouches[0].screenX;
-            const deltaX = touchEndX - touchStartX;
+            // Verifica se o popup está visível
+            if (popup.style.display === 'flex') {
+                touchEndX = event.changedTouches[0].screenX;
+                const deltaX = touchEndX - touchStartX;
 
-            // Verifica se o deslize é significativo o suficiente para navegar
-            if (deltaX > 50) navigatePopup(-1); // Deslize para a direita
-            if (deltaX < -50) navigatePopup(1); // Deslize para a esquerda
+                // Verifica se o deslize é significativo o suficiente para navegar
+                if (deltaX > 50) navigatePopup(-1); // Deslize para a direita
+                if (deltaX < -50) navigatePopup(1); // Deslize para a esquerda
+            }
         });
-        
+        // resto do codigo para baixo
+
         // Adiciona o pop-up de taxa
         const taxaOverlay = document.getElementById('taxa-initial');
         const taxaPopup = document.querySelector('.taxa-overlay');
