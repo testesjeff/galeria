@@ -295,7 +295,7 @@
 <body>
 
     <header>
-        <h1>ARINHA LEITE - GALERIA</h1>
+        <h1>SARINHA LEITE - GALERIA</h1>
     </header>
     <section>
 
@@ -1718,6 +1718,20 @@
                 dragMessage.classList.remove('show');
             }, 3000); // Remove a mensagem após 3 segundos
         };
+
+        // Função para abrir o popup
+        function openPopup() {
+            popup.style.display = 'flex';
+            overlay.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Bloqueia a rolagem da tela
+        }
+
+        // Função para fechar o popup
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            document.body.style.overflow = ''; // Restaura a rolagem da tela
+        }
         
         // Função para abrir o pop-up com conteúdo dinâmico (imagem ou vídeo)
         const openPopup = (type, url, thumbnailSrc, index) => {
