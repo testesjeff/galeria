@@ -57,14 +57,8 @@
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
       
-      // Close and reset the lightbox before opening the new image
-      var $this = $(this);
-      if ($('.ekko-lightbox').length) {
-        $('.ekko-lightbox').ekkoLightbox('close');
-      }
-      
-      // Open the lightbox again
-      $this.ekkoLightbox();
+      // Apenas abre o lightbox sem qualquer animação adicional
+      $(this).ekkoLightbox();
     });
   </script>
 </body>
