@@ -15,6 +15,9 @@
     .row {
       margin: 15px;
     }
+        body {
+        background-color: black;
+    }
   </style>
   <script>
     window.console = window.console || function(t) {};
@@ -53,12 +56,15 @@
   <script>
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
-      $(this).ekkoLightbox({
-        onShown: function() {
-          // Reinicia o lightbox a cada vez que uma imagem é exibida, para garantir que ele não trave.
-          $(this).ekkoLightbox('resize');
-        }
-      });
+      
+      // Close and reset the lightbox before opening the new image
+      var $this = $(this);
+      if ($('.ekko-lightbox').length) {
+        $('.ekko-lightbox').ekkoLightbox('close');
+      }
+      
+      // Open the lightbox again
+      $this.ekkoLightbox();
     });
   </script>
 </body>
