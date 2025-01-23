@@ -15,8 +15,24 @@
         body {
         background-color: black;
     }
+    
     .row {
       margin: 15px;
+    }
+
+    /* Adicionando uma transição suave nas imagens */
+    .img-fluid {
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    /* Garantindo que as imagens sejam invisíveis até estarem completamente carregadas */
+    .img-fluid.lazyload {
+      opacity: 0;
+    }
+
+    /* Forçando a visibilidade imediata das imagens ao carregar */
+    .img-fluid.loaded {
+      opacity: 1;
     }
   </style>
   <script>
@@ -26,24 +42,28 @@
 
 <body translate="no">
   <div class="container">
+    <div class="row">
       <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded" loading="lazy">
       </a>
+    </div>
+    <div class="row">
       <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded" loading="lazy">
       </a>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -53,6 +73,13 @@
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
       $(this).ekkoLightbox();
+    });
+
+    // Atrasando o carregamento das imagens para uma transição mais suave
+    $(window).on('load', function() {
+      $('.img-fluid').each(function() {
+        $(this).addClass('loaded');
+      });
     });
   </script>
 </body>
